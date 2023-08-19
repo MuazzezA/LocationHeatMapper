@@ -1,20 +1,14 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Provider} from 'react-redux';
 import AppStack from './navigation/app-stack';
-
-// redux
+import store from './redux/store';
 
 const App = () => {
   return (
-    <SafeAreaView style={styles.flex}>
+    <Provider store={store}>
       <AppStack />
-    </SafeAreaView>
+    </Provider>
   );
 };
 export default App;
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-});
