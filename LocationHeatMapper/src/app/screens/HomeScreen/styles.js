@@ -1,6 +1,5 @@
-import {StyleSheet, Dimensions} from 'react-native';
-
-const {width, height} = Dimensions.get('window');
+import {StyleSheet} from 'react-native';
+import {colors, sizes} from '../../../assets/theme/theme';
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -8,17 +7,20 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   map: {
-    // height: height,
-    // width: width,
     ...StyleSheet.absoluteFillObject,
   },
   button: {
     position: 'absolute',
-    bottom: 20,
+    bottom: sizes.base,
     height: 50,
-    width: 120,
-    backgroundColor: '#FF6969',
+    width: sizes.width * 0.4,
+    backgroundColor: colors.green,
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: sizes.radius,
+  },
+  reloadText: {
+    color: colors.white,
+    fontSize: sizes.base,
   },
 });
