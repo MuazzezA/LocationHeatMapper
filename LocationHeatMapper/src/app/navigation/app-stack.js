@@ -18,8 +18,9 @@ export default AppStack = () => {
     const user = await getUserData();
 
     if (!user) {
+      dispatch(updateAuthenticated(false));
+    } else {
       dispatch(login(user));
-    } else if (user) {
       dispatch(updateAuthenticated(true));
     }
   };
