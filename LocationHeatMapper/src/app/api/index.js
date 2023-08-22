@@ -1,5 +1,5 @@
 import {firebase} from '@react-native-firebase/database';
-import {firebaseConfig} from '../api/firebase';
+import {firebaseConfig} from '../../../config/firebaseSettings';
 import Geolocation from '@react-native-community/geolocation';
 import {Alert} from 'react-native';
 
