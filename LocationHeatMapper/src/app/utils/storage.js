@@ -18,4 +18,12 @@ const getUserData = async () => {
   }
 };
 
-export {storeUserData, getUserData};
+const removeUserData = async () => {
+  try {
+    await AsyncStorage.removeItem('@USER');
+  } catch (e) {
+    console.error('Error:Remove ', e);
+  }
+};
+
+export {storeUserData, getUserData, removeUserData};
