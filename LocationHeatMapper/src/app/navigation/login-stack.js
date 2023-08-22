@@ -10,7 +10,7 @@ export default LoginStack = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="profile-screen" component={LoginScreen} />
+      <Stack.Screen name="login-screen" component={LoginScreen} />
     </Stack.Navigator>
   );
 };

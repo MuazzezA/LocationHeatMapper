@@ -1,10 +1,64 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {useState} from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  Text,
+  Alert,
+  Pressable,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {CommonActions} from '@react-navigation/native';
+import styles from './styles';
+import {TextContainer} from '../../components';
+import {removeUserData} from '../../utils/storage';
+import {reset} from '../../redux/slice/user-slice';
+import auth from '@react-native-firebase/auth';
 
 export const ProfileScreen = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const {user} = useSelector(state => state.user);
+
+  const onPressLogout = () => {
+    Alert.alert('Logout', 'Are you sure you want to logout?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Logout',
+        onPress: () => {
+          dispatch(reset());
+          removeUserData();
+          auth()
+            .signOut()
+            .then(() => Alert.alert('User signed out!'));
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{name: 'login-stack'}],
+            }),
+          );
+        },
+      },
+    ]);
+  };
+
   return (
-    <View>
-      <Text>ProfileScreen</Text>
-    </View>
+    <SafeAreaView style={styles.safearea}>
+      <View style={styles.body}>
+        <Text style={styles.title}>Profile</Text>
+        <View style={styles.textContainer}>
+          <TextContainer text={user.name} title={'Name'} />
+          <TextContainer text={user.email} title={'Email'} />
+        </View>
+      </View>
+      <Pressable style={styles.logoutButton} onPress={onPressLogout}>
+        <Text style={styles.logoutText}>Logout</Text>
+      </Pressable>
+    </SafeAreaView>
   );
 };
