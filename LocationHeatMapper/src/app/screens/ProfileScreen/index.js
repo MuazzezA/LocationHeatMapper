@@ -14,6 +14,8 @@ import styles from './styles';
 import {TextContainer} from '../../components';
 import {removeUserData} from '../../utils/storage';
 import {reset} from '../../redux/slice/user-slice';
+import auth from '@react-native-firebase/auth';
+
 export const ProfileScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -31,6 +33,9 @@ export const ProfileScreen = () => {
         onPress: () => {
           dispatch(reset());
           removeUserData();
+          auth()
+            .signOut()
+            .then(() => Alert.alert('User signed out!'));
           navigation.dispatch(
             CommonActions.reset({
               index: 0,

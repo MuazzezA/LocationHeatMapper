@@ -27,6 +27,14 @@ export default StyleSheet.create({
     color: colors.lightGray,
   },
   infotTextContainer: {
-    marginTop: sizes.padding * 3,
+    marginVertical: sizes.padding * 2,
+  },
+  input: {
+    marginTop: sizes.padding,
+    height: 50,
+    borderWidth: 1,
+    borderColor: colors.gray,
+    borderRadius: sizes.radius,
+    paddingHorizontal: sizes.padding,
   },
 });
