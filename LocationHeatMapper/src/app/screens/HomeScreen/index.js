@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Pressable} from 'react-native';
 import {getCurrentPosition, getFirebaseData} from '../../api';
-import MapView, {Heatmap} from 'react-native-maps';
+import MapView, {Heatmap, Marker, Polyline} from 'react-native-maps';
 import styles from './styles';
 
 export const HomeScreen = () => {
@@ -69,6 +69,21 @@ export const HomeScreen = () => {
                 maxIntensity={100}
                 gradientSmoothing={10}
                 heatmapMode={'POINTS_DENSITY'}
+              />
+            )}
+            {processedData.length > 0 && (
+              <Polyline
+                coordinates={processedData}
+                strokeWidth={2}
+                strokeColor="blue"
+              />
+            )}
+            {position.coords && (
+              <Marker
+                coordinate={{
+                  latitude: position?.coords?.latitude,
+                  longitude: position?.coords?.longitude,
+                }}
               />
             )}
           </MapView>
