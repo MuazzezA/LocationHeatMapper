@@ -31,6 +31,7 @@ export const HomeScreen = () => {
       position?.coords?.longitude !== undefined
     ) {
       const {latitude, longitude} = position.coords;
+      console.log('set position');
       setRegion({
         latitude,
         longitude,
@@ -38,7 +39,16 @@ export const HomeScreen = () => {
         longitudeDelta: 0.05,
       });
     }
-  }, [position]);
+
+    if (!position && data) {
+      const lastData = data[data.length - 1];
+      console.log('set position last data');
+      if (lastData) {
+        position.coords.latitude = lastData.coords.latitude;
+        position.coords.longitude = lastData.coords.longitude;
+      }
+    }
+  }, [position, data]);
 
   useEffect(() => {
     const processed = Object.values(data).map(item => ({
@@ -71,13 +81,13 @@ export const HomeScreen = () => {
                 heatmapMode={'POINTS_DENSITY'}
               />
             )}
-            {processedData.length > 0 && (
+            {/* {processedData.length > 0 && (
               <Polyline
                 coordinates={processedData}
                 strokeWidth={2}
                 strokeColor="blue"
               />
-            )}
+            )} */}
             {position.coords && (
               <Marker
                 coordinate={{
