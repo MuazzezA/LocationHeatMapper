@@ -24,10 +24,16 @@ export const pushFirebaseData = newdata => {
 
 export const getCurrentPosition = setPosition => {
   Geolocation.getCurrentPosition(
-    pos => {
-      setPosition(pos);
+    position => {
+      setPosition(position);
     },
-    error => Alert.alert('GetCurrentPosition Error', JSON.stringify(error)),
-    {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000},
+    error => {
+      if (error.code === 1) {
+        console.error('Location Permission Error : ', error);
+      } else {
+        console.error('Error : ', error);
+      }
+    },
+    {enableHighAccuracy: true, timeout: 10000, maximumAge: 1000},
   );
 };
