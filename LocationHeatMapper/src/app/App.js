@@ -3,7 +3,7 @@ import {Provider} from 'react-redux';
 import AppStack from './navigation/app-stack';
 import store from './redux/store';
 import firebase from '@react-native-firebase/app';
-import {PermissionsAndroid, Alert} from 'react-native';
+import {PermissionsAndroid, Alert, BackHandler} from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 import BackgroundJob from 'react-native-background-actions';
 import {pushFirebaseData} from './api';
@@ -55,7 +55,7 @@ const App = () => {
             }
             resolve();
           },
-          {enableHighAccuracy: false, timeout: 10000, maximumAge: 1000},
+          {enableHighAccuracy: true, timeout: 10000, maximumAge: 1000},
         );
       });
 
@@ -104,14 +104,35 @@ const App = () => {
   };
 
   useEffect(() => {
+    const exitAlert = () => {
+      Alert.alert(
+        'Permission Denied',
+        'Location permission is required to use the app.',
+        [
+          {
+            text: 'Exit',
+            onPress: () => BackHandler.exitApp(),
+          },
+        ],
+      );
+      return true;
+    };
+
     requestLocationPermission().then(result => {
       console.log('result : ', result);
       if (result) {
         toggleBackground();
       } else {
-        // izin alamadı - kontrol et
+        exitAlert();
       }
     });
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      exitAlert,
+    );
+
+    return () => backHandler.remove();
   }, []);
 
   return (
